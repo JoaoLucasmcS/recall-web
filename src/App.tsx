@@ -13,7 +13,7 @@ function App() {
   }, []);
 
   return (
-      <div>
+      <div className="grid-campeoes">
         {campeoes.map((campeao) => (
             <CardCampeao key={campeao.id} campeao={campeao} />
         ))}
