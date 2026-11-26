@@ -1,75 +1,68 @@
-# React + TypeScript + Vite
+<p align="center">
+  <img src="public/favicon.svg" alt="" width="72" />
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<h1 align="center">Recall</h1>
 
-Currently, two official plugins are available:
+<p align="center">
+  Biblioteca de campeões do League of Legends: história, habilidades, dicas e skins de cada campeão, sempre no patch atual.
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+<p align="center">
+  <img src="docs/biblioteca.png" alt="Tela da biblioteca de campeões" width="900" />
+</p>
 
-## React Compiler
+## Funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Biblioteca** com todos os campeões do patch atual, busca por nome e filtro por classe (marcando mais de uma classe, mostra só quem tem todas, como Mago + Assassino)
+- **Página do campeão** com splash art, atributos, história, passiva e habilidades (Q/W/E/R) com recarga e custo, dicas para jogar com e contra, e galeria de skins
+- **Tema claro e escuro**, com a escolha salva no navegador
+- **Layout responsivo**, pensado também para o celular
+- **Página 404** personalizada
+- Versão do patch atual na barra de navegação
 
-## Expanding the ESLint configuration
+<p align="center">
+  <img src="docs/campeao.png" alt="Página de detalhe de um campeão" width="900" />
+</p>
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **React 19** + **TypeScript** + **Vite**
+- **Tailwind CSS v4** e componentes **shadcn/ui**
+- **React Router** para as rotas (`/`, `/campeao/:id` e 404)
+- Ícones **lucide-react**
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Os dados vêm da [Recall API](https://github.com/JoaoLucasmcS/recall-api), um BFF em FastAPI que consome o Data Dragon da Riot, faz cache por patch e entrega os dados prontos para a tela.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Organização
 
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+src/
+├── pages/        Biblioteca e Campeao (uma por rota)
+├── components/   peças da interface (cards, navbar, filtros, seções do campeão)
+│   └── ui/       componentes gerados pelo shadcn
+├── hooks/        busca de dados e tema (useCampeoes, useCampeao, usePatch, useTema)
+├── lib/          chamada à API, tradução das classes, limpeza de texto
+└── types/        tipos dos dados que a API devolve
 ```
+
+Toda chamada à API passa por `lib/api.ts`, o único lugar que conhece o endereço da API e trata respostas de erro.
+
+## Como rodar
+
+Com a [Recall API](https://github.com/JoaoLucasmcS/recall-api) rodando em `http://127.0.0.1:8000`:
+
+```bash
+npm install
+npm run dev     # abre em http://localhost:5173
+```
+
+O endereço da API fica em `.env.development` (`VITE_API_URL`).
+
+## Próximos passos
+
+- **Pergunte ao Recall:** assistente com IA que responde sobre os campeões usando os dados reais da API (tool calling), com servidor MCP e RAG sobre as notas de patch
+
+---
+
+Recall não é endossado pela Riot Games e não reflete as opiniões da Riot Games nem de ninguém oficialmente envolvido na produção ou gestão de League of Legends. League of Legends e Riot Games são marcas comerciais ou marcas registradas da Riot Games, Inc. League of Legends © Riot Games, Inc.
