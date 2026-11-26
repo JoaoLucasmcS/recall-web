@@ -1,4 +1,3 @@
-import './App.css'
 import {useEffect, useState} from "react";
 import type {CampeaoResumo} from "./types/campeao.ts";
 import CardCampeao from "./components/CardCampeao.tsx";
@@ -13,7 +12,7 @@ function App() {
   }, []);
 
   return (
-      <div className="grid-campeoes">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4 p-6">
         {campeoes.map((campeao) => (
             <CardCampeao key={campeao.id} campeao={campeao} />
         ))}
