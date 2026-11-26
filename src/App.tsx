@@ -1,3 +1,5 @@
+import {useState} from "react";
+import BuscaCampeao from "@/components/BuscaCampeao";
 import CardCampeao from "@/components/CardCampeao";
 import Navbar from "@/components/Navbar";
 import {useCampeoes} from "@/hooks/useCampeoes";
@@ -5,6 +7,12 @@ import {useCampeoes} from "@/hooks/useCampeoes";
 function App() {
   const campeoes = useCampeoes()
   const carregando = campeoes.length === 0
+
+  const [busca, setBusca] = useState("")
+  // .filter fica só com os campeões cujo nome contém o texto, ignorando maiúsculas/minúsculas
+  const campeoesFiltrados = campeoes.filter((campeao) =>
+      campeao.name.toLowerCase().includes(busca.trim().toLowerCase())
+  )
 
   return (
       <div className="relative min-h-screen bg-zinc-50 text-zinc-900 transition-colors duration-300 dark:bg-zinc-950 dark:text-white">
@@ -30,13 +38,23 @@ function App() {
             </p>
           </header>
 
+          <div className="mb-8">
+            <BuscaCampeao busca={busca} onBuscaChange={setBusca}/>
+          </div>
+
+          {!carregando && campeoesFiltrados.length === 0 && (
+              <p className="py-20 text-center text-zinc-500">
+                Nenhum campeão encontrado para "{busca}".
+              </p>
+          )}
+
           <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {carregando
                 // enquanto os dados não chegam, "esqueletos" pulsam no lugar dos cards
                 ? Array.from({length: 10}, (_, indice) => (
                     <div key={indice} className="aspect-308/560 animate-pulse rounded-xl bg-zinc-200 dark:bg-zinc-800/60"/>
                 ))
-                : campeoes.map((campeao) => (
+                : campeoesFiltrados.map((campeao) => (
                     <CardCampeao key={campeao.id} campeao={campeao}/>
                 ))}
           </div>
