@@ -5,8 +5,8 @@ import FiltroClasse from "@/components/FiltroClasse";
 import {useCampeoes} from "@/hooks/useCampeoes";
 
 function Biblioteca() {
-  const campeoes = useCampeoes()
-  const carregando = campeoes.length === 0
+  const {campeoes, status} = useCampeoes()
+  const carregando = status === "carregando"
 
   const [busca, setBusca] = useState("")
   const [classes, setClasses] = useState<string[]>([])
@@ -38,7 +38,13 @@ function Biblioteca() {
           <FiltroClasse classes={classes} onClassesChange={setClasses}/>
         </div>
 
-        {!carregando && campeoesFiltrados.length === 0 && (
+        {status === "erro" && (
+            <p className="py-20 text-center text-zinc-500">
+              Não foi possível carregar os campeões agora. Tente novamente em instantes.
+            </p>
+        )}
+
+        {status === "ok" && campeoesFiltrados.length === 0 && (
             <p className="py-20 text-center text-zinc-500">
               Nenhum campeão encontrado com esses filtros.
             </p>

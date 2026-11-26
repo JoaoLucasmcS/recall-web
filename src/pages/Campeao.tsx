@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Link, useParams} from "react-router";
 import CabecalhoCampeao from "@/components/campeao/CabecalhoCampeao";
+import Dicas from "@/components/campeao/Dicas";
 import Habilidades from "@/components/campeao/Habilidades";
 import Skins from "@/components/campeao/Skins";
 import {useCampeao} from "@/hooks/useCampeao";
@@ -66,19 +67,7 @@ function Campeao() {
 
             {(campeao.allytips.length > 0 || campeao.enemytips.length > 0) && (
                 <Secao titulo="Dicas">
-                    <div className="grid gap-6 md:grid-cols-2">
-                        {[
-                            {titulo: `Jogando com ${campeao.name}`, dicas: campeao.allytips, cor: "border-emerald-500"},
-                            {titulo: `Jogando contra ${campeao.name}`, dicas: campeao.enemytips, cor: "border-rose-500"},
-                        ].map(({titulo, dicas, cor}) => dicas.length > 0 && (
-                            <div key={titulo} className={`rounded-2xl border-l-4 ${cor} bg-white/60 p-6 backdrop-blur-md dark:bg-white/5`}>
-                                <h3 className="mb-3 font-semibold">{titulo}</h3>
-                                <ul className="list-disc space-y-2 pl-5 text-zinc-700 dark:text-zinc-300">
-                                    {dicas.map((dica) => <li key={dica}>{dica}</li>)}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
+                    <Dicas campeao={campeao}/>
                 </Secao>
             )}
 
