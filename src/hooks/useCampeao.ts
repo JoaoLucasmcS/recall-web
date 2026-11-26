@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {buscarNaApi, ErroApi} from "@/lib/api";
 import type {CampeaoDetalhe} from "@/types/campeao";
 
 type Status = "carregando" | "ok" | "nao_encontrado" | "erro"
@@ -17,17 +18,13 @@ export function useCampeao(id: string) {
         // se o usuário trocar de campeão antes da resposta chegar, a resposta antiga é ignorada
         let ativo = true;
 
-        fetch(`${import.meta.env.VITE_API_URL}/campeoes/${id}`)
-            .then((resposta) => {
-                if (resposta.status === 404) throw new Error("nao_encontrado");
-                if (!resposta.ok) throw new Error("erro");
-                return resposta.json();
-            })
-            .then((dados) => {
-                if (ativo) setResultado({id, campeao: dados, status: "ok"});
+        buscarNaApi<CampeaoDetalhe>(`/campeoes/${id}`)
+            .then((campeao) => {
+                if (ativo) setResultado({id, campeao, status: "ok"});
             })
             .catch((erro) => {
-                if (ativo) setResultado({id, campeao: null, status: erro.message === "nao_encontrado" ? "nao_encontrado" : "erro"});
+                const naoEncontrado = erro instanceof ErroApi && erro.status === 404;
+                if (ativo) setResultado({id, campeao: null, status: naoEncontrado ? "nao_encontrado" : "erro"});
             });
 
         return () => {
