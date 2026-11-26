@@ -3,6 +3,7 @@ import {Link, useParams} from "react-router";
 import CabecalhoCampeao from "@/components/campeao/CabecalhoCampeao";
 import Dicas from "@/components/campeao/Dicas";
 import Habilidades from "@/components/campeao/Habilidades";
+import NaoEncontrado from "@/components/NaoEncontrado";
 import Skins from "@/components/campeao/Skins";
 import {useCampeao} from "@/hooks/useCampeao";
 
@@ -31,12 +32,19 @@ function Campeao() {
         return <div className="h-[560px] animate-pulse bg-zinc-200 dark:bg-zinc-900"/>
     }
 
+    if (status === "nao_encontrado") {
+        return (
+            <NaoEncontrado
+                titulo="Campeão não encontrado"
+                mensagem={`Ninguém chamado "${id}" foi visto em Runeterra. Confira o nome (maiúsculas contam!) e tente de novo.`}
+            />
+        )
+    }
+
     if (status !== "ok" || !campeao) {
         return (
             <div className="mx-auto max-w-7xl px-6 py-32 text-center">
-                <p className="text-2xl font-semibold">
-                    {status === "nao_encontrado" ? "Campeão não encontrado." : "Não foi possível carregar o campeão agora."}
-                </p>
+                <p className="text-2xl font-semibold">Não foi possível carregar o campeão agora.</p>
                 <Link to="/" className="mt-6 inline-block text-violet-600 hover:underline dark:text-violet-400">
                     Voltar à biblioteca
                 </Link>
