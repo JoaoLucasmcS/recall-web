@@ -9,6 +9,16 @@
 </p>
 
 <p align="center">
+  <a href="https://recall-web-lake.vercel.app"><strong>Acesse o Recall</strong></a>
+  ·
+  <a href="https://github.com/JoaoLucasmcS/recall-api">Recall API</a>
+</p>
+
+<p align="center">
+  <sub>Hospedagem gratuita: se ninguém usou o site nos últimos minutos, a primeira visita pode levar até um minuto enquanto o servidor acorda.</sub>
+</p>
+
+<p align="center">
   <img src="docs/biblioteca.png" alt="Tela da biblioteca de campeões" width="900" />
 </p>
 
