@@ -1,9 +1,12 @@
 import {ArrowUpRight} from "lucide-react";
+import {Link} from "react-router";
 import type {CampeaoResumo} from "@/types/campeao";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 
 function CardCampeao({campeao}: {campeao: CampeaoResumo}) {
     return (
+        // o Link troca de página sem recarregar o site inteiro
+        <Link to={`/campeao/${campeao.id}`} className="rounded-xl focus-visible:outline-2 focus-visible:outline-violet-500">
         <Card className="group relative cursor-pointer gap-0 bg-zinc-200 py-0 ring-zinc-900/10 transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-violet-500/30 hover:ring-2 hover:ring-violet-500/70 dark:bg-zinc-900 dark:ring-white/10">
             <CardContent className="px-0">
                 {/* overflow-hidden "corta" a imagem quando ela cresce */}
@@ -31,6 +34,7 @@ function CardCampeao({campeao}: {campeao: CampeaoResumo}) {
                 <CardDescription className="text-violet-200/90">{campeao.title}</CardDescription>
             </CardHeader>
         </Card>
+        </Link>
     )
 }
 
