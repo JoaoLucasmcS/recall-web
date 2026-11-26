@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {Link, useParams} from "react-router";
+import AvisoServidorAcordando from "@/components/AvisoServidorAcordando";
 import CabecalhoCampeao from "@/components/campeao/CabecalhoCampeao";
 import Dicas from "@/components/campeao/Dicas";
 import Habilidades from "@/components/campeao/Habilidades";
@@ -29,7 +30,14 @@ function Campeao() {
     }, [id])
 
     if (status === "carregando") {
-        return <div className="h-[560px] animate-pulse bg-zinc-200 dark:bg-zinc-900"/>
+        return (
+            <div>
+                <div className="h-[480px] animate-pulse bg-zinc-200 dark:bg-zinc-900"/>
+                <div className="px-6 pt-8">
+                    <AvisoServidorAcordando/>
+                </div>
+            </div>
+        )
     }
 
     if (status === "nao_encontrado") {

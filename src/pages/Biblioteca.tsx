@@ -1,4 +1,5 @@
 import {useState} from "react";
+import AvisoServidorAcordando from "@/components/AvisoServidorAcordando";
 import BuscaCampeao from "@/components/BuscaCampeao";
 import CardCampeao from "@/components/CardCampeao";
 import FiltroClasse from "@/components/FiltroClasse";
@@ -37,6 +38,8 @@ function Biblioteca() {
           <BuscaCampeao busca={busca} onBuscaChange={setBusca}/>
           <FiltroClasse classes={classes} onClassesChange={setClasses}/>
         </div>
+
+        {carregando && <AvisoServidorAcordando/>}
 
         {status === "erro" && (
             <p className="py-20 text-center text-zinc-500">
