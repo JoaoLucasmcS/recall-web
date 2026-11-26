@@ -1,6 +1,7 @@
 import {useState} from "react";
 import BuscaCampeao from "@/components/BuscaCampeao";
 import CardCampeao from "@/components/CardCampeao";
+import FiltroClasse from "@/components/FiltroClasse";
 import Navbar from "@/components/Navbar";
 import {useCampeoes} from "@/hooks/useCampeoes";
 
@@ -9,10 +10,14 @@ function App() {
   const carregando = campeoes.length === 0
 
   const [busca, setBusca] = useState("")
-  // .filter fica só com os campeões cujo nome contém o texto, ignorando maiúsculas/minúsculas
-  const campeoesFiltrados = campeoes.filter((campeao) =>
-      campeao.name.toLowerCase().includes(busca.trim().toLowerCase())
-  )
+  const [classes, setClasses] = useState<string[]>([])
+
+  // fica só com os campeões que batem com a busca E com todas as classes escolhidas
+  const campeoesFiltrados = campeoes.filter((campeao) => {
+    const bateNome = campeao.name.toLowerCase().includes(busca.trim().toLowerCase())
+    const bateClasse = classes.length === 0 || classes.every((classe) => campeao.tags.includes(classe))
+    return bateNome && bateClasse
+  })
 
   return (
       <div className="relative min-h-screen bg-zinc-50 text-zinc-900 transition-colors duration-300 dark:bg-zinc-950 dark:text-white">
@@ -38,13 +43,14 @@ function App() {
             </p>
           </header>
 
-          <div className="mb-8">
+          <div className="mb-8 flex flex-col gap-4">
             <BuscaCampeao busca={busca} onBuscaChange={setBusca}/>
+            <FiltroClasse classes={classes} onClassesChange={setClasses}/>
           </div>
 
           {!carregando && campeoesFiltrados.length === 0 && (
               <p className="py-20 text-center text-zinc-500">
-                Nenhum campeão encontrado para "{busca}".
+                Nenhum campeão encontrado com esses filtros.
               </p>
           )}
 
